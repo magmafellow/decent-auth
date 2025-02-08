@@ -1,0 +1,22 @@
+experimentalTernaries: True
+printWidth: 150
+tabWidth: 2
+useTabs: True
+semi: False
+singleQuote: True
+quoteProps: consistent
+jsxSingleQuote: True
+trailingComma: all
+bracketSpacing: True
+bracketSameLine: False
+arrowParens: avoid
+rangeStart: 0
+# parser: None
+# filepath: None
+requirePragma: False
+insertPragma: False
+proseWrap: preserve
+htmlWhitespaceSensitivity: css
+endOfLine: lf
+embeddedLanguageFormatting: auto
+singleAttributePerLine: False

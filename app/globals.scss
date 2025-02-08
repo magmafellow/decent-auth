@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html.dark:root {
+  --accent: #4E2EDD;
+  --accent-light: #6B4AFF;
+  --accent-strong: #300DCC;
+
+  --success: #20A443;
+  --success-light: #33DD60;
+  --success-strong: #086922;
+
+  --destruct: #701313;
+  --destruct-light: #9F1B1B;
+  --destruct-strong: #510505;
+
+  --neutral: #D7D7D7;
+  --neutral-light: #F6F6F6;
+  --neutral-strong: #464547;
+
+  --neutral2: #4F4F4F;
+  --neutral2-light: #696969;
+  --neutral2-strong: #272727;
+}
