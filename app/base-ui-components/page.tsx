@@ -46,7 +46,7 @@ const Page = () => {
 			</div>
       <div className={`section_typography`}>
         <DefContainer>
-          
+          _blank
         </DefContainer>
       </div>
 		</div>
