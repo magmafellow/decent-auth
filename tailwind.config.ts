@@ -6,22 +6,24 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				accent: 'var(--accent)',
-				accentL: 'var(--accent-light)',  // accentL = accentLight
-				accentS: 'var(--accent-strong)',  // accentS = accentStrong
+				accent: 'rgb(var(--accent) / var(--tw-bg-opacity, 1))',
+				accentL: 'rgb(var(--accent-light) / var(--tw-bg-opacity, 1))',  // accentL = accentLight
+				accentS: 'rgb(var(--accent-strong) / var(--tw-bg-opacity, 1))',  // accentS = accentStrong
 
 				destruct: 'var(--destruct)',
 				destructL: 'var(--destruct-light)',
 				destructS: 'var(--destruct-strong)',
 
+				neutral: 'rgb(var(--neutral) / var(--tw-bg-opacity, 1))',
+				neutralL: 'rgb(var(--neutral-light) / var(--tw-bg-opacity, 1))',
+				neutralS: 'rgb(var(--neutral-strong) / var(--tw-bg-opacity, 1))',
+				
 				neutral2: 'var(--neutral2)',
 				neutral2L: 'var(--neutral2-light)',
 				neutral2S: 'var(--neutral2-strong)',
-			},
-			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)',
+
+				// A = primary B = secondary C = three
+				surfaceB: 'rgb(var(--surface-secondary) / var(--tw-bg-opacity, 1))',
 			},
 		},
 	},

@@ -10,4 +10,9 @@ export const ubuntu = Ubuntu({
 	subsets: ['latin', 'cyrillic'],
 })
 
+export const ubuntuMono = Ubuntu_Mono({
+	weight: ['400', '700'],
+	subsets: ['latin', 'cyrillic'],
+})
+
 export default josefinSans

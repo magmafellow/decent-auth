@@ -7,9 +7,10 @@ type Props = {
 	semantic?: string
 
 	children: ReactNode
+	className?: string
 }
 
-const Button: React.FC<Props> = ({ rang = 'primary', semantic = 'accent', children }) => {
+const Button: React.FC<Props> = ({ rang = 'primary', semantic = 'accent', children, className }) => {
 	const mainClass = 'inline-flex justify-center items-center gap-2 py-2 px-3 rounded-[8px] duration-200'
 
 	let cummulativeClass = ''
@@ -31,6 +32,11 @@ const Button: React.FC<Props> = ({ rang = 'primary', semantic = 'accent', childr
 			const outline = 'dark:focus:outline dark:focus:outline-destructL dark:focus:outline-2 dark:focus:outline-offset-2'
 			const focus = 'dark:focus:bg-destructL'
 			cummulativeClass += [color, outline, focus].join(' ')
+		} else if (semantic === 'outline') {
+			const color = 'border dark:border-neutral2 dark:bg-transparent dark:hover:bg-neutral2'
+			const outline = 'dark:focus:outline dark:focus:outline-neutral2 dark:focus:outline-2 dark:focus:outline-offset-2'
+			const focus = 'dark:focus:bg-neutral2'
+			cummulativeClass += [color, outline, focus].join(' ')
 		}
 	}
 
@@ -43,7 +49,7 @@ const Button: React.FC<Props> = ({ rang = 'primary', semantic = 'accent', childr
 		}
 	}
 
-	return <button className={`${mainClass} ${cummulativeClass}`}>{children}</button>
+	return <button className={`${mainClass} ${cummulativeClass} ${className}`}>{children}</button>
 }
 
 export default Button
