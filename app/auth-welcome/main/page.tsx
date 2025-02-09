@@ -6,7 +6,7 @@ const Main = () => {
   return (
     <>
     <Header />
-    <div className={`h-screen flex justify-center items-center`}>
+    <div className={`pt-[120px] max-[1246px]:pt-[112px] flex justify-center`}>
       <SignupForm />
     </div>
     </>

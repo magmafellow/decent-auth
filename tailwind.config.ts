@@ -22,6 +22,10 @@ export default {
 				neutral2L: 'var(--neutral2-light)',
 				neutral2S: 'var(--neutral2-strong)',
 
+				success: 'rgb(var(--success) / var(--tw-bg-opacity, 1))',
+				successL: 'rgb(var(--success-light) / var(--tw-bg-opacity, 1))',
+				successS: 'rgb(var(--success-strong) / var(--tw-bg-opacity, 1))',
+
 				// A = primary B = secondary C = three
 				surfaceB: 'rgb(var(--surface-secondary) / var(--tw-bg-opacity, 1))',
 			},
