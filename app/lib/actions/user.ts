@@ -14,7 +14,7 @@ export const signupUser = async (data: User) => {
 	const parsed = await signupSchema.safeParseAsync(data)
 	console.log('parsed res:', parsed)
 
-	if (!parsed.success || parsed.data.username === 'magma') {
+	if (!parsed.success) {
 		return { message: 'Bad account credentials', error: true }
 	}
 
@@ -27,7 +27,9 @@ export const loginUser = async (username: string, password: string) => {
 	try {
 		await signIn('credentials', { username, password })
 		console.log('success login in loginUser()')
-	} catch (error) {}
+	} catch (error) {
+		console.log(error)
+	}
 }
 
 export const getUserFromDb = async (username: string, password: string) => {
@@ -50,17 +52,21 @@ export const getUserFromDbByUsername = async (username: string) => {
 		return null
 	}
 
-	return selectRes.at(0)
+	const user = selectRes.at(0)
+	console.log('return user in getUserFromDbByUsername()', user)
+	return user
 }
 
 export const getUserFromDbById = async (id: number | string) => {
-	const selectRes = await db.select().from(usersTable).where(eq(usersTable.username, String(id)))
+	const selectRes = await db.select().from(usersTable).where(eq(usersTable.id, Number(id)))
 
 	if (selectRes.length === 0) {
+		console.log('Nothing was found in Users getUserFromDbById()')
 		return null
 	}
-
-	return selectRes.at(0)
+	const user = selectRes.at(0)
+	console.log('return user in getUserFromDbById()', user)
+	return user
 }
 
 const createNewUser = async (data: User) => {

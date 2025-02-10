@@ -16,15 +16,15 @@ import { ImSpinner7 } from 'react-icons/im'
 const LoginForm = () => {
 	const [response, setResponse] = useState<{message: string, error: boolean} | null>(null)
 
-	const form = useForm<z.infer<typeof signupSchema>>({
-		resolver: zodResolver(signupSchema),
+	const form = useForm<z.infer<typeof signinSchema>>({
+		resolver: zodResolver(signinSchema),
 		defaultValues: {
 			username: '',
 			password: '',
 		},
 	})
 
-	async function onSubmit(values: z.infer<typeof signupSchema>) {
+	async function onSubmit(values: z.infer<typeof signinSchema>) {
 		// TODO
 		const loginUserResponse = await loginUser(values.username, values.password)
 		// setResponse(loginUserResponse)

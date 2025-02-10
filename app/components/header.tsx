@@ -16,7 +16,7 @@ const Header = () => {
         </div>
         <nav className={`max-[767px]:hidden`}>
           <ul className='flex text-base text-neutral items-center gap-4'>
-            <li>
+            {/* <li>
               <Link className='hover:underline' href='#'>Getting started</Link>
             </li>
             <li>
@@ -27,6 +27,18 @@ const Header = () => {
             </li>
             <li>
               <Link className='hover:underline' href='#'>Ask question</Link>
+            </li> */}
+            <li>
+              <Link className='hover:underline' href='/auth-welcome/signup'>Signup</Link>
+            </li>
+            <li>
+              <Link className='hover:underline' href='/auth-welcome/login'>Login</Link>
+            </li>
+            <li>
+              <Link className='hover:underline' href='/auth-welcome/profile'>Profile</Link>
+            </li>
+            <li>
+              <Link className='hover:underline' href='/auth-welcome/ask-a-question'>Ask question</Link>
             </li>
           </ul>
         </nav>

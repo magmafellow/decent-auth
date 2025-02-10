@@ -28,6 +28,7 @@ export default {
 
 				// A = primary B = secondary C = three
 				surfaceB: 'rgb(var(--surface-secondary) / var(--tw-bg-opacity, 1))',
+				surfaceC: 'rgb(var(--surface-three) / var(--tw-bg-opacity, 1))',
 			},
 		},
 	},
