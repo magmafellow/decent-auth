@@ -7,9 +7,10 @@ import { usersTable } from '@/schema-db'
 import { and, eq } from 'drizzle-orm'
 
 export const signupUser = async (data: User) => {
-	await new Promise((resolve, _) => {
-		setTimeout(() => resolve(0), 1500)
-	})
+	// artificial delay
+	// await new Promise((resolve, _) => {
+	// 	setTimeout(() => resolve(0), 1500)
+	// })
 
 	const parsed = await signupSchema.safeParseAsync(data)
 	console.log('parsed res:', parsed)
