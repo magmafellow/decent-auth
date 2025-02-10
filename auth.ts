@@ -1,45 +1,73 @@
-import NextAuth from 'next-auth'
+import NextAuth, { type DefaultSession } from 'next-auth'
 import { ZodError } from 'zod'
 import Credentials from 'next-auth/providers/credentials'
 import { signInSchema } from './lib/zod'
+import { getUserFromDb } from './app/lib/actions/user'
 // Your own logic for dealing with plaintext password strings; be careful!
 // import { saltAndHashPassword } from '@/utils/password'
 // import { getUserFromDb } from '@/utils/db'
 
-export const { handlers, auth } = NextAuth({
+declare module "next-auth" {
+  /**
+   * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+   */
+  interface Session {
+    user: {
+      /** The user's postal address. */
+			username: string
+      /**
+       * By default, TypeScript merges new interface properties and overwrites existing ones.
+       * In this case, the default session user properties will be overwritten,
+       * with the new ones defined above. To keep the default session user properties,
+       * you need to add them back into the newly declared interface.
+       */
+    } & DefaultSession["user"]
+  }
+}
+
+declare module "@auth/core/jwt" {
+	interface JWT {
+		id: string | undefined
+	}
+}
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
 	providers: [
 		Credentials({
 			// You can specify which fields should be submitted, by adding keys to the `credentials` object.
 			// e.g. domain, username, password, 2FA token, etc.
 			credentials: {
-				email: {},
+				username: {},
 				password: {},
 			},
-			// authorize: async credentials => {
-			// 	try {
-			// 		let user = null
+			authorize: async (credentials) => {
+				try {
+					let user = null
 
-			// 		const { email, password } = await signInSchema.parseAsync(credentials)
+					const parsed = await signInSchema.safeParseAsync(credentials)
+					if (!parsed.success) {
+						return null
+					}
+					const { username, password } = parsed.data
+					// logic to salt and hash password TODO Later
 
-			// 		// logic to salt and hash password
-			// 		// const pwHash = saltAndHashPassword(password)
+					// logic to verify if the user exists
+					user = await getUserFromDb(username, password)
 
-			// 		// logic to verify if the user exists
-			// 		// user = await getUserFromDb(email, pwHash)
+					if (!user) {
+						throw new Error('Invalid credentials.')
+					}
 
-			// 		if (!user) {
-			// 			throw new Error('Invalid credentials.')
-			// 		}
-
-			// 		// return JSON object with the user data
-			// 		return user
-			// 	} catch (error) {
-			// 		if (error instanceof ZodError) {
-			// 			// Return `null` to indicate that the credentials are invalid
-			// 			return null
-			// 		}
-			// 	}
-			// },
+					// return JSON object with the user data
+					return user
+				} catch (error) {
+					if (error instanceof ZodError) {
+						// Return `null` to indicate that the credentials are invalid
+						return null
+					}
+					return null
+				}
+			},
 		}),
 	],
 	//  By default, the `id` property does not exist on `token` or `session`. See the [TypeScript](https://authjs.dev/getting-started/typescript) on how to add it.
@@ -52,7 +80,7 @@ export const { handlers, auth } = NextAuth({
 			return token
 		},
 		session({ session, token }) {
-			session.user.id = token.id as string
+			session.user.id = token.id!
 			return session
 		},
 	},

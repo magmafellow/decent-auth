@@ -60,7 +60,7 @@ const Page = () => {
 						<img className='mx-auto h-full' src='/assets/img/utils/point-arrow-bottom.svg' alt='arrow bottom' />
 					</div>
 					<div className={`flex justify-center`}>
-						<Link href='/auth-welcome/main'>
+						<Link href='/auth-welcome/signup'>
 							<Button semantic='neutral' className={``}>Try it out</Button>
 						</Link>
 					</div>

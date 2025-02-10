@@ -1,8 +1,10 @@
 'use server'
 
 import { User, signupSchema } from '@/app/types/user'
+import { signIn } from '@/auth'
 import { db } from '@/db'
 import { usersTable } from '@/schema-db'
+import { and, eq } from 'drizzle-orm'
 
 export const signupUser = async (data: User) => {
 	await new Promise((resolve, _) => {
@@ -13,16 +15,54 @@ export const signupUser = async (data: User) => {
 	console.log('parsed res:', parsed)
 
 	if (!parsed.success || parsed.data.username === 'magma') {
-		return {message: 'Bad account credentials', error: true}
+		return { message: 'Bad account credentials', error: true }
 	}
 
-	const createUserResponse = await createNewUser(parsed.data)
+	const _createUserResponse = await createNewUser(parsed.data)
 
-	return {message: 'Successfully created account', error: false}
+	return { message: 'Successfully created account', error: false }
 }
 
+export const loginUser = async (username: string, password: string) => {
+	try {
+		await signIn('credentials', { username, password })
+		console.log('success login in loginUser()')
+	} catch (error) {}
+}
+
+export const getUserFromDb = async (username: string, password: string) => {
+	const selectRes = await db
+		.select()
+		.from(usersTable)
+		.where(and(eq(usersTable.username, username), eq(usersTable.password, password)))
+
+	if (selectRes.length === 0) {
+		return null
+	}
+
+	return selectRes.at(0)
+}
+
+export const getUserFromDbByUsername = async (username: string) => {
+	const selectRes = await db.select().from(usersTable).where(eq(usersTable.username, username))
+
+	if (selectRes.length === 0) {
+		return null
+	}
+
+	return selectRes.at(0)
+}
+
+export const getUserFromDbById = async (id: number | string) => {
+	const selectRes = await db.select().from(usersTable).where(eq(usersTable.username, String(id)))
+
+	if (selectRes.length === 0) {
+		return null
+	}
+
+	return selectRes.at(0)
+}
 
 const createNewUser = async (data: User) => {
-	const insertResponse = await db.insert(usersTable).values(data)
-
+	const _insertResponse = await db.insert(usersTable).values(data)
 }

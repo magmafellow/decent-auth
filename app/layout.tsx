@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import '@/app/globals.scss'
 import josefinSans from '@/app/fonts'
+import Providers from '@/app/components/providers'
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -14,7 +15,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html className='dark' lang='en'>
-			<body className={`${josefinSans.className} antialiased dark:bg-[#000000] dark:text-[#f6f6f6]`}>{children}</body>
+			<body className={`${josefinSans.className} antialiased dark:bg-[#000000] dark:text-[#f6f6f6]`}>
+				<Providers>{children}</Providers>
+			</body>
 		</html>
 	)
 }

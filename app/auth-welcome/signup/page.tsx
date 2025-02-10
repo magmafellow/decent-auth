@@ -1,6 +1,6 @@
 import Header from '@/app/components/header'
 import React from 'react'
-import SignupForm from '@/app/auth-welcome/main/signup-form'
+import SignupForm from '@/app/auth-welcome/signup/signup-form'
 
 const Main = () => {
   return (
