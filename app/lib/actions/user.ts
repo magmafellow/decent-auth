@@ -1,7 +1,7 @@
 'use server'
 
 import { User, signupSchema } from '@/app/types/user'
-import { signIn } from '@/auth'
+import { signIn, signOut } from '@/auth'
 import { db } from '@/db'
 import { usersTable } from '@/schema-db'
 import { and, eq } from 'drizzle-orm'
@@ -16,21 +16,30 @@ export const signupUser = async (data: User) => {
 	console.log('parsed res:', parsed)
 
 	if (!parsed.success) {
-		return { message: 'Bad account credentials', error: true }
+		return { message: 'Bad account credentials', redirect: '', error: true }
 	}
 
 	const _createUserResponse = await createNewUser(parsed.data)
-
-	return { message: 'Successfully created account', error: false }
+	
+	const { username, password } = parsed.data
+	// signing in a new created user
+	await signIn('credentials', { username, password, redirect: false })
+	
+	return { message: 'Successfully created account', redirect: '/auth-welcome/profile', error: false }
 }
 
 export const loginUser = async (username: string, password: string) => {
 	try {
-		await signIn('credentials', { username, password })
-		console.log('success login in loginUser()')
+		await signIn('credentials', { username, password, redirect: false })
+		return { message: 'Logged in successfully', redirect: '/auth-welcome/profile', error: false }
 	} catch (error) {
-		console.log(error)
+		console.log('error occured in login')
+		return { message: 'Something went wrong', redirect: '', error: true }
 	}
+}
+
+export const signoutUser = async () => {
+	await signOut()
 }
 
 export const getUserFromDb = async (username: string, password: string) => {
@@ -59,7 +68,10 @@ export const getUserFromDbByUsername = async (username: string) => {
 }
 
 export const getUserFromDbById = async (id: number | string) => {
-	const selectRes = await db.select().from(usersTable).where(eq(usersTable.id, Number(id)))
+	const selectRes = await db
+		.select()
+		.from(usersTable)
+		.where(eq(usersTable.id, Number(id)))
 
 	if (selectRes.length === 0) {
 		console.log('Nothing was found in Users getUserFromDbById()')

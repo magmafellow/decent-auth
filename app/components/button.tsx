@@ -8,9 +8,10 @@ type Props = {
 
 	children: ReactNode
 	className?: string
+	onClick?: any
 }
 
-const Button: React.FC<Props> = ({ rang = 'primary', semantic = 'accent', children, className }) => {
+const Button: React.FC<Props> = ({ rang = 'primary', semantic = 'accent', children, className, ...props }) => {
 	const mainClass = 'inline-flex justify-center items-center gap-2 py-2 px-3 rounded-[8px] duration-200'
 
 	let cummulativeClass = ''
@@ -49,7 +50,7 @@ const Button: React.FC<Props> = ({ rang = 'primary', semantic = 'accent', childr
 		}
 	}
 
-	return <button className={`${mainClass} ${cummulativeClass} ${className}`}>{children}</button>
+	return <button className={`${mainClass} ${cummulativeClass} ${className}`} {...props}>{children}</button>
 }
 
 export default Button

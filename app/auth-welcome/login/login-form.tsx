@@ -12,9 +12,13 @@ import Button from '@/app/components/button'
 import { signinSchema, signupSchema } from '@/app/types/user'
 import { loginUser, signupUser } from '@/app/lib/actions/user'
 import { ImSpinner7 } from 'react-icons/im'
+import { useRouter } from 'next/navigation'
+
+type LoginResponse = { message: string; redirect: string; error: boolean }
 
 const LoginForm = () => {
-	const [response, setResponse] = useState<{message: string, error: boolean} | null>(null)
+	const router = useRouter()
+	const [response, setResponse] = useState<LoginResponse | null>(null)
 
 	const form = useForm<z.infer<typeof signinSchema>>({
 		resolver: zodResolver(signinSchema),
@@ -27,8 +31,13 @@ const LoginForm = () => {
 	async function onSubmit(values: z.infer<typeof signinSchema>) {
 		// TODO
 		const loginUserResponse = await loginUser(values.username, values.password)
-		// setResponse(loginUserResponse)
-		console.log('submit values: ', values)
+		setResponse(loginUserResponse)
+
+		const redirectPath = loginUserResponse.redirect
+		if (redirectPath) {
+			router.push(redirectPath)
+		}
+		
 	}
 
 	return (

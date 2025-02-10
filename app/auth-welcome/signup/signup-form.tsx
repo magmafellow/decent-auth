@@ -12,10 +12,7 @@ import Button from '@/app/components/button'
 import { signupSchema } from '@/app/types/user'
 import { signupUser } from '@/app/lib/actions/user'
 import { ImSpinner7 } from 'react-icons/im'
-
-const digitsOnlyMask: MaskitoOptions = {
-	mask: /^\d+$/,
-}
+import { useRouter } from 'next/navigation'
 
 const birthdayMask: MaskitoOptions = {
 	mask: [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/],
@@ -25,12 +22,15 @@ const phoneMask: MaskitoOptions = {
 	mask: ['+', '7', ' ', '(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, '-', /\d/, /\d/],
 }
 
+type SignupResponse = { message: string; redirect: string; error: boolean }
+
 const SignupForm = () => {
-	const inputRef = useMaskito({ options: digitsOnlyMask })
 	const birthdayRef = useMaskito({ options: birthdayMask })
 	const phoneRef = useMaskito({ options: phoneMask })
 
-	const [response, setResponse] = useState<{message: string, error: boolean} | null>(null)
+	const router = useRouter()
+
+	const [response, setResponse] = useState<SignupResponse | null>(null)
 
 	const form = useForm<z.infer<typeof signupSchema>>({
 		resolver: zodResolver(signupSchema),
@@ -48,6 +48,11 @@ const SignupForm = () => {
 		// TODO
 		const signupUserResponse = await signupUser(values)
 		setResponse(signupUserResponse)
+
+		const { redirect } = signupUserResponse
+		if (redirect) {
+			router.push(redirect)
+		}
 		console.log('submit values: ', values)
 	}
 
