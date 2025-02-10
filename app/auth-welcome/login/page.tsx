@@ -14,7 +14,6 @@ const Main = async () => {
 			<div className={`pt-[120px] max-[1246px]:pt-[112px] flex justify-center`}>
 				<LoginForm />
 			</div>
-      <LogoutFly />
 		</>
 	)
 }

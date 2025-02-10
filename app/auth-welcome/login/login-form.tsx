@@ -37,14 +37,16 @@ const LoginForm = () => {
 		if (redirectPath) {
 			router.push(redirectPath)
 		}
-		
 	}
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className='py-8 overflow-hidden px-[102px] relative rounded-[10px] bg-surfaceB'>
-				<h1 className={`text-center text-[32px] mb-[28px]`}>Login</h1>
-				<div className={`flex flex-col gap-4 mb-[56px] w-[260px]`}>
+			<form
+				className='py-8 overflow-hidden px-[102px] max-[565px]:px-[76px] max-[565px]:pt-[20px] max-[565px]:pb-[4px] relative max-[465px]:px-2 max-[465px]:w-[90%] rounded-[10px] bg-surfaceB'
+				onSubmit={form.handleSubmit(onSubmit)}
+			>
+				<h1 className={`text-center text-[32px] mb-[20px] max-[565px]:mb-[4px]`}>Login</h1>
+				<div className={`flex flex-col max-[465px]:px-3 max-[465px]:items-stretch gap-4 mb-[56px] min-w-[260px] max-[465px]:w-full max-[565px]:mb-5`}>
 					<FormField
 						control={form.control}
 						name='username'
